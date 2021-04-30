@@ -1,0 +1,54 @@
+{
+    "host":"http://localhost:8080",
+    "security": {
+        "type": "Beaere Token",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI0MmE2N2EyZDVmYWI0NDU0OWRlM2QzYTg0YjVkMjVlNiIsImlhdCI6MTYxODgzNDQ2NiwiZXhwIjoxOTM0MTk0NDY2fQ.unYm5jUqLKkTg-qEPiAJnrOYYE2CerxSlqjwn9m-5zE"
+    },
+    "mapping":[
+        {
+            "url":"/api/states/fan.mypurifier2",
+            "httpMethod": "GET",
+            "httpHeaders": {
+                "accept": "application/json"
+            },
+            "converter":""
+        }
+    ],
+    "update":[
+        {
+            "key":"State",
+            "type":"1",
+            "details":[
+                {
+                    "value":"on",
+                    "url":"/api/services/fan/turn_on",
+                    "body":{
+                        "entity_id":"Name"
+                    }
+                },
+                {
+                    "value":"off",
+                    "url":"/api/services/fan/turn_off",
+                    "body":{
+                        "entity_id":"Name"
+                    }
+                }
+            ]
+        },
+        {
+            "key":"Speed",
+            "type":"2",
+            "url":"/api/services/fan/set_speed",
+            "body":{
+                "entity_id":"Name",
+                "speed":"Speed"
+            }
+        }
+    ],
+    "mqtt":{
+        "host":"tcp://test.mosquitto.org",
+        "port":1883,
+        "publishTopic":"udo",
+        "subscribeTopic":"device/airpurifier"
+    }
+}
