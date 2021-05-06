@@ -2,6 +2,11 @@ package cn.edu.nju.connector;
 
 import java.math.BigDecimal;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -28,7 +33,22 @@ public class UplinkConverter implements Converter {
     }
 
     @Override
-    public JSONObject convert(String content, String config) {
-        return null;
+    public String convert(String content, String config) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        try {
+            engine.eval(config);
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+        Invocable jsInvoke = (Invocable) engine;
+        Object res = new Object();
+        try {
+            res = jsInvoke.invokeFunction("mapToUDOMsg", new Object[] { content });
+        } catch (NoSuchMethodException | ScriptException e) {
+            e.printStackTrace();
+        }
+        System.out.println(res.toString());
+        return res.toString();
     }
 }

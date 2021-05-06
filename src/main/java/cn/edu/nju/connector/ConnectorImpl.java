@@ -22,9 +22,10 @@ public class ConnectorImpl implements Connector {
     private OkHttpClient client;
     private String getStatesUrl;
     private String downlinkConfig;
+    private String uplinkConfig;
 
     public ConnectorImpl(String host, String authorization, String contentType, String getStatesUrl,
-            String downlinkConfig) {
+            String downlinkConfig, String uplinkConfig) {
         this.host = host;
         this.authorization = authorization;
         this.contentType = contentType;
@@ -33,6 +34,7 @@ public class ConnectorImpl implements Connector {
         this.client = new OkHttpClient();
         this.getStatesUrl = getStatesUrl;
         this.downlinkConfig = downlinkConfig;
+        this.uplinkConfig = uplinkConfig;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ConnectorImpl implements Connector {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return uplinkConverter.convert(result);
+        return uplinkConverter.convert(result, uplinkConfig);
     }
 
     @Override
@@ -67,9 +69,10 @@ public class ConnectorImpl implements Connector {
         JSONArray configs=JSON.parseArray(downlinkConfig);
         for (Iterator<Object> iterator = configs.iterator(); iterator.hasNext(); ) {
             JSONObject next = (JSONObject) iterator.next();
-            JSONObject convertedContents = downlinkConverter.convert(content, next.toJSONString());
-            String updateUrl=convertedContents.get("url").toString();
-            String body=convertedContents.get("body").toString();
+            String convertedContents = downlinkConverter.convert(content, next.toJSONString());
+            JSONObject jsonContent=JSON.parseObject(convertedContents);
+            String updateUrl=jsonContent.get("url").toString();
+            String body=jsonContent.get("body").toString();
             System.out.println(updateUrl+"-----"+body);
             updateStates(updateUrl, body);
         }

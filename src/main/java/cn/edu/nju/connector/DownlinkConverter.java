@@ -15,7 +15,7 @@ public class DownlinkConverter implements Converter {
     }
 
     @Override
-    public JSONObject convert(String content, String config) {
+    public String convert(String content, String config) {
         JSONObject result=new JSONObject();
         JSONObject bodyConfig=new JSONObject();
         JSONObject configJson=JSON.parseObject(config);
@@ -39,6 +39,6 @@ public class DownlinkConverter implements Converter {
             body.put(entry.getKey().toString(), states.get(entry.getValue().toString()));
         }
         result.put("body", body.toJSONString());
-        return result;
+        return result.toJSONString();
     }
 }

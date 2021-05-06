@@ -52,6 +52,7 @@ public class Utility {
         result.put("contentType", JSON.parseObject(mapping.get("httpHeaders").toString()).get("accept").toString());
         result.put("getStatesUrl", mapping.get("url").toString());
         result.put("downlinkConfig", root.get("update").toString());
+        result.put("uplinkConfig", mapping.get("converter").toString());
         JSONObject mqtt=JSON.parseObject(root.get("mqtt").toString());
         result.put("mqttHost", mqtt.get("host").toString());
         result.put("mqttPort", mqtt.get("port"));

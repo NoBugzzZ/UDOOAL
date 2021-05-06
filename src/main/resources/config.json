@@ -11,7 +11,7 @@
             "httpHeaders": {
                 "accept": "application/json"
             },
-            "converter":""
+            "converter":"function mapToUDOMsg(content){var jsonData = JSON.parse(content);var temp=Math.round(jsonData.attributes.temperature);var value={udoi:\"123\",schemaId:\"Air_purifier\",content:{Name:jsonData.entity_id,Brand:\"xiaomi\",State:jsonData.state,Speed:jsonData.attributes.mode,Humidity:jsonData.attributes.humidity,Temperature:temp,Aqi:jsonData.attributes.aqi}};var result=JSON.stringify(value);return result;}"
         }
     ],
     "update":[

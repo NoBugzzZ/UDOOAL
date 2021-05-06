@@ -26,7 +26,8 @@ public class GatewayClient {
                         decodedConfig.get("authorization").toString(),
                         decodedConfig.get("contentType").toString(),
                         decodedConfig.get("getStatesUrl").toString(),
-                        decodedConfig.get("downlinkConfig").toString());
+                        decodedConfig.get("downlinkConfig").toString(),
+                        decodedConfig.get("uplinkConfig").toString());
         MqttClientCallback mqttClientCallback=new MqttClientCallback(connector);
         gatewayMqttClient.connect(mqttClientCallback);
         gatewayMqttClient.subscribe();
